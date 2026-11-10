@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecalho('Agendar consulta')}"></head>
+<body>
+<header th:replace="~{fragmentos/base :: navegacao}"></header>
+
+<main class="container">
+    <div th:replace="~{fragmentos/base :: mensagens}"></div>
+
+    <div class="cartao-conteudo cartao-conteudo--medio">
+        <h1>Agendar consulta</h1>
+        <p class="subtitulo">Se a agenda do médico estiver lotada na data escolhida, você entra automaticamente na lista de espera.</p>
+
+        <div class="vazio" th:if="${#lists.isEmpty(medicos)}">
+            Nenhum médico disponível para o seu plano no momento.
+        </div>
+
+        <form class="formulario" th:if="${!#lists.isEmpty(medicos)}" th:object="${formulario}"
+              th:action="@{/paciente/consultas/agendar}" method="post" novalidate>
+            <div th:replace="~{fragmentos/base :: errosGlobais}"></div>
+
+            <div class="campo">
+                <label for="crmMedico">Médico</label>
+                <select id="crmMedico" th:field="*{crmMedico}" required>
+                    <option value="">Selecione...</option>
+                    <option th:each="medico : ${medicos}" th:value="${medico.crm}"
+                            th:text="${medico.nome} + ' - ' + ${medico.especialidade}">Médico</option>
+                </select>
+                <small class="erro" th:if="${#fields.hasErrors('crmMedico')}" th:errors="*{crmMedico}"></small>
+            </div>
+
+            <div class="campo">
+                <label for="dataConsulta">Data</label>
+                <input id="dataConsulta" type="date" th:field="*{dataConsulta}" th:min="${hoje}" required>
+                <small class="erro" th:if="${#fields.hasErrors('dataConsulta')}" th:errors="*{dataConsulta}"></small>
+            </div>
+
+            <div class="acoes">
+                <button type="submit" class="botao">Agendar consulta</button>
+                <a class="botao botao--contorno" th:href="@{/paciente/menu}">Voltar</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: rodape}"></footer>
+</body>
+</html>

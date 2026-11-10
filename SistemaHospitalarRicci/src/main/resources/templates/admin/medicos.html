@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecalho('Médicos')}"></head>
+<body>
+<header th:replace="~{fragmentos/base :: navegacao}"></header>
+
+<main class="container">
+    <div th:replace="~{fragmentos/base :: mensagens}"></div>
+
+    <div class="cabecalho-pagina">
+        <h1>Médicos</h1>
+        <div class="acoes">
+            <a class="botao" th:href="@{/admin/medicos/novo}">Cadastrar médico</a>
+            <a class="botao botao--contorno" th:href="@{/admin/menu}">Voltar</a>
+        </div>
+    </div>
+
+    <div class="vazio" th:if="${#lists.isEmpty(medicos)}">Nenhum médico cadastrado.</div>
+
+    <div class="tabela-responsiva" th:if="${!#lists.isEmpty(medicos)}">
+        <table class="tabela">
+            <thead><tr><th>CRM</th><th>Nome</th><th>Especialidade</th><th>Plano atendido</th><th></th></tr></thead>
+            <tbody>
+            <tr th:each="medico : ${medicos}">
+                <td data-rotulo="CRM" th:text="${medico.crm}">123456</td>
+                <td data-rotulo="Nome" th:text="${medico.nome}">Nome</td>
+                <td data-rotulo="Especialidade" th:text="${medico.especialidade}">Especialidade</td>
+                <td data-rotulo="Plano" th:text="${medico.planoAtendido != null} ? ${medico.planoAtendido} : 'Particular'">Plano</td>
+                <td>
+                    <form th:action="@{|/admin/medicos/${medico.crm}/excluir|}" method="post"
+                          onsubmit="return confirm('Excluir este médico?');">
+                        <button type="submit" class="botao botao--perigo botao--pequeno">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: rodape}"></footer>
+</body>
+</html>

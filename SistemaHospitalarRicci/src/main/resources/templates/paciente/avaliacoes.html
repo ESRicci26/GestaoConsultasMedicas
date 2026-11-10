@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecalho('Avaliar consulta')}"></head>
+<body>
+<header th:replace="~{fragmentos/base :: navegacao}"></header>
+
+<main class="container">
+    <div th:replace="~{fragmentos/base :: mensagens}"></div>
+
+    <div class="cabecalho-pagina">
+        <h1>Avaliar consulta</h1>
+        <a class="botao botao--contorno" th:href="@{/paciente/menu}">Voltar</a>
+    </div>
+
+    <div class="vazio" th:if="${#lists.isEmpty(consultas)}">Você não possui consultas realizadas aguardando avaliação.</div>
+
+    <div class="tabela-responsiva" th:if="${!#lists.isEmpty(consultas)}">
+        <table class="tabela">
+            <thead><tr><th>Nº</th><th>Data</th><th>Médico</th><th></th></tr></thead>
+            <tbody>
+            <tr th:each="consulta : ${consultas}">
+                <td data-rotulo="Nº" th:text="${consulta.id}">1</td>
+                <td data-rotulo="Data" th:text="${#temporals.format(consulta.dataConsulta, 'dd/MM/yyyy')}">01/01/2026</td>
+                <td data-rotulo="Médico" th:text="${consulta.nomeMedico}">Médico</td>
+                <td><a class="botao botao--pequeno" th:href="@{|/paciente/avaliacoes/${consulta.id}|}">Avaliar</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: rodape}"></footer>
+</body>
+</html>

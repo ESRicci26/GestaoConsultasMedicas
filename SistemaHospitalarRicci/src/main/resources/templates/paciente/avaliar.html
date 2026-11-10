@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecalho('Avaliar consulta')}"></head>
+<body>
+<header th:replace="~{fragmentos/base :: navegacao}"></header>
+
+<main class="container">
+    <div th:replace="~{fragmentos/base :: mensagens}"></div>
+
+    <div class="cartao-conteudo cartao-conteudo--medio">
+        <h1>Avalie sua consulta</h1>
+        <p class="subtitulo">Sua opinião é muito importante para nós!</p>
+
+        <div class="dados-consulta">
+            <span><strong>Médico:</strong> <span th:text="${consulta.nomeMedico}">Médico</span></span>
+            <span><strong>Data:</strong> <span th:text="${#temporals.format(consulta.dataConsulta, 'dd/MM/yyyy')}">01/01/2026</span></span>
+        </div>
+
+        <form class="formulario" th:object="${formulario}" th:action="@{|/paciente/avaliacoes/${consulta.id}|}"
+              method="post" novalidate>
+            <div th:replace="~{fragmentos/base :: errosGlobais}"></div>
+
+            <div class="campo">
+                <span><strong>Nota</strong></span>
+                <div class="estrelas" role="radiogroup" aria-label="Nota de 1 a 5 estrelas">
+                    <th:block th:each="nota : ${#numbers.sequence(5, 1, -1)}">
+                        <input type="radio" th:field="*{estrelas}" th:value="${nota}">
+                        <label th:for="${#ids.prev('estrelas')}" th:title="${nota} + ' - ' + ${rotulosEstrelas[nota - 1]}">★</label>
+                    </th:block>
+                </div>
+                <small class="erro" th:if="${#fields.hasErrors('estrelas')}" th:errors="*{estrelas}"></small>
+            </div>
+
+            <div class="campo">
+                <label for="texto">Conte-nos sobre sua experiência</label>
+                <textarea id="texto" maxlength="1000" th:field="*{texto}" placeholder="Conte-nos sobre sua experiência!"></textarea>
+                <small class="erro" th:if="${#fields.hasErrors('texto')}" th:errors="*{texto}"></small>
+            </div>
+
+            <div class="acoes">
+                <button type="submit" class="botao">Enviar avaliação</button>
+                <a class="botao botao--contorno" th:href="@{/paciente/avaliacoes}">Voltar</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: rodape}"></footer>
+</body>
+</html>

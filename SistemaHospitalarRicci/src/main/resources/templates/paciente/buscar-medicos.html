@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecalho('Pesquisar médicos')}"></head>
+<body>
+<header th:replace="~{fragmentos/base :: navegacao}"></header>
+
+<main class="container">
+    <div th:replace="~{fragmentos/base :: mensagens}"></div>
+
+    <div class="cabecalho-pagina">
+        <h1>Pesquisar médicos</h1>
+        <a class="botao botao--contorno" th:href="@{/paciente/menu}">Voltar</a>
+    </div>
+
+    <div class="cartao-conteudo" style="margin-bottom:1.25rem;">
+        <p class="subtitulo">Pesquise por nome ou especialidade. Deixe o campo em branco para listar todos.</p>
+        <form class="formulario" th:object="${formulario}" th:action="@{/paciente/medicos/buscar}" method="get">
+            <div class="linha-campos">
+                <div class="campo">
+                    <label for="campo">Buscar por</label>
+                    <select id="campo" th:field="*{campo}">
+                        <option th:each="opcao : ${campos}" th:value="${opcao}" th:text="${opcao.rotulo}">Nome</option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="termo">Digite aqui</label>
+                    <input id="termo" type="text" th:field="*{termo}" placeholder="Nome ou especialidade">
+                </div>
+            </div>
+            <div class="acoes"><button type="submit" class="botao">Buscar</button></div>
+        </form>
+    </div>
+
+    <th:block th:if="${resultados != null}">
+        <div class="vazio" th:if="${#lists.isEmpty(resultados)}">Nenhum médico encontrado.</div>
+
+        <div class="grade" th:if="${!#lists.isEmpty(resultados)}">
+            <article class="medico-cartao" th:each="medico : ${resultados}">
+                <h3 th:text="${medico.nome}">Nome</h3>
+                <div class="medico-cartao__meta">
+                    <span th:text="${medico.especialidade}">Especialidade</span> &middot;
+                    <span th:text="'CRM ' + ${medico.crm}">CRM</span> &middot;
+                    <span th:text="${medico.planoAtendido != null} ? ${medico.planoAtendido} : 'Particular'">Plano</span>
+                </div>
+                <span class="nota" th:if="${medico.possuiAvaliacoes()}" th:text="'★ ' + ${medico.notaMediaFormatada}">★ 5,0</span>
+                <span class="subtitulo" th:unless="${medico.possuiAvaliacoes()}">Ainda sem avaliações</span>
+                <ul class="comentarios" th:if="${!#lists.isEmpty(medico.comentarios)}">
+                    <li th:each="comentario : ${medico.comentarios}" th:text="${comentario}">Comentário</li>
+                </ul>
+            </article>
+        </div>
+    </th:block>
+</main>
+
+<footer th:replace="~{fragmentos/base :: rodape}"></footer>
+</body>
+</html>

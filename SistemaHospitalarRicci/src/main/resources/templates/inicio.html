@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecalho('Início')}"></head>
+<body>
+<header th:replace="~{fragmentos/base :: navegacao}"></header>
+
+<main class="container">
+    <div th:replace="~{fragmentos/base :: mensagens}"></div>
+
+    <section class="apresentacao">
+        <h1>Olá, seja bem-vindo ao Sistema Hospitalar Ricci!</h1>
+        <p>Onde sua saúde é nossa prioridade. Agende consultas, acompanhe seu histórico e avalie o atendimento.</p>
+    </section>
+
+    <h2>Fazer login como:</h2>
+    <div class="grade grade--tres">
+        <a class="atalho" th:href="@{/paciente/login}">
+            <span class="atalho__icone" aria-hidden="true">🧑</span>
+            <span class="atalho__titulo">Paciente</span>
+            <span class="atalho__texto">Agende, cancele e avalie suas consultas.</span>
+        </a>
+        <a class="atalho" th:href="@{/medico/login}">
+            <span class="atalho__icone" aria-hidden="true">🩺</span>
+            <span class="atalho__titulo">Médico</span>
+            <span class="atalho__texto">Realize consultas e gere relatórios.</span>
+        </a>
+        <a class="atalho" th:href="@{/admin/login}">
+            <span class="atalho__icone" aria-hidden="true">🛠️</span>
+            <span class="atalho__titulo">Administrador</span>
+            <span class="atalho__texto">Gerencie pacientes e médicos.</span>
+        </a>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: rodape}"></footer>
+</body>
+</html>

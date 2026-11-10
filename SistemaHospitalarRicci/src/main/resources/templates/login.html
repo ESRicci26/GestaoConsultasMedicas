@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecalho('Login ' + ${tipoUsuario.rotulo})}"></head>
+<body>
+<header th:replace="~{fragmentos/base :: navegacao}"></header>
+
+<main class="container">
+    <div class="cartao-conteudo cartao-conteudo--estreito">
+        <h1 th:text="'Login ' + ${tipoUsuario.rotulo}">Login</h1>
+        <p class="subtitulo" th:text="'Para entrar como ' + ${#strings.toLowerCase(tipoUsuario.rotulo)} + ', preencha os campos abaixo:'"></p>
+
+        <div th:replace="~{fragmentos/base :: mensagens}"></div>
+
+        <form class="formulario" th:object="${formulario}" th:action="@{${acao}}" method="post" novalidate>
+            <div th:replace="~{fragmentos/base :: errosGlobais}"></div>
+
+            <div class="campo">
+                <label for="usuario" th:text="${tipoUsuario.rotuloIdentificador}">Usuário</label>
+                <input id="usuario" type="text" th:field="*{usuario}" autocomplete="username" autofocus required>
+                <small class="erro" th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"></small>
+            </div>
+
+            <div class="campo">
+                <label for="senha">Senha</label>
+                <input id="senha" type="password" name="senha" autocomplete="current-password" required>
+                <small class="erro" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></small>
+            </div>
+
+            <button type="submit" class="botao botao--bloco">Entrar</button>
+        </form>
+
+        <p th:if="${urlCadastro != null}" style="margin-top:1rem; text-align:center;">
+            Não possui uma conta? <a th:href="@{${urlCadastro}}">Cadastre-se</a>
+        </p>
+        <p style="margin-top:1rem; text-align:center;"><a th:href="@{/}">&larr; Voltar ao início</a></p>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: rodape}"></footer>
+</body>
+</html>

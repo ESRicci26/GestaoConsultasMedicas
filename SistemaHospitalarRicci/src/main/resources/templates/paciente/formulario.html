@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecalho(${pagina.titulo})}"></head>
+<body>
+<header th:replace="~{fragmentos/base :: navegacao}"></header>
+
+<main class="container">
+    <div th:replace="~{fragmentos/base :: mensagens}"></div>
+
+    <div class="cartao-conteudo cartao-conteudo--medio">
+        <h1 th:text="${pagina.titulo}">Paciente</h1>
+
+        <form class="formulario" th:object="${formulario}" th:action="@{${pagina.acao}}" method="post" novalidate>
+            <div th:replace="~{fragmentos/base :: errosGlobais}"></div>
+
+            <div class="linha-campos">
+                <div class="campo">
+                    <label for="cpf">CPF</label>
+                    <input id="cpf" type="text" inputmode="numeric" maxlength="14" th:field="*{cpf}"
+                           th:readonly="${pagina.edicao}" placeholder="Somente números" required>
+                    <small class="erro" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></small>
+                </div>
+                <div class="campo">
+                    <label for="nome">Nome</label>
+                    <input id="nome" type="text" maxlength="120" th:field="*{nome}" required>
+                    <small class="erro" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+                </div>
+            </div>
+
+            <div class="linha-campos">
+                <div class="campo">
+                    <label for="idade">Idade</label>
+                    <input id="idade" type="number" min="0" max="130" th:field="*{idade}" required>
+                    <small class="erro" th:if="${#fields.hasErrors('idade')}" th:errors="*{idade}"></small>
+                </div>
+                <div class="campo">
+                    <label for="plano">Plano de saúde</label>
+                    <input id="plano" type="text" maxlength="80" th:field="*{plano}">
+                    <small class="ajuda">Deixe em branco se não possui plano (a consulta será cobrada).</small>
+                    <small class="erro" th:if="${#fields.hasErrors('plano')}" th:errors="*{plano}"></small>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="senha">Senha</label>
+                <input id="senha" type="password" name="senha" minlength="6" maxlength="72"
+                       autocomplete="new-password" th:required="${!pagina.edicao}">
+                <small class="ajuda" th:if="${pagina.edicao}">Deixe em branco para manter a senha atual.</small>
+                <small class="erro" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></small>
+            </div>
+
+            <div class="acoes">
+                <button type="submit" class="botao" th:text="${pagina.edicao} ? 'Salvar alterações' : 'Cadastrar'">Salvar</button>
+                <a class="botao botao--contorno" th:href="@{${pagina.urlVoltar}}">Voltar</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: rodape}"></footer>
+</body>
+</html>

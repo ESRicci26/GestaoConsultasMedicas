@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecalho('Menu do médico')}"></head>
+<body>
+<header th:replace="~{fragmentos/base :: navegacao}"></header>
+
+<main class="container">
+    <div th:replace="~{fragmentos/base :: mensagens}"></div>
+
+    <div class="cabecalho-pagina"><h1>Menu do médico</h1></div>
+
+    <div class="grade grade--tres">
+        <a class="atalho" th:href="@{/medico/consultas}">
+            <span class="atalho__icone" aria-hidden="true">🩺</span><span class="atalho__titulo">Realizar consulta</span>
+            <span class="atalho__texto">Registre o atendimento dos pacientes agendados.</span></a>
+        <a class="atalho" th:href="@{/medico/relatorios}">
+            <span class="atalho__icone" aria-hidden="true">📄</span><span class="atalho__titulo">Gerar relatórios</span>
+            <span class="atalho__texto">Consultas e agendamentos por período.</span></a>
+        <a class="atalho" th:href="@{/medico/dados}">
+            <span class="atalho__icone" aria-hidden="true">✏️</span><span class="atalho__titulo">Editar meus dados</span>
+            <span class="atalho__texto">Nome, especialidade, plano e senha.</span></a>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: rodape}"></footer>
+</body>
+</html>

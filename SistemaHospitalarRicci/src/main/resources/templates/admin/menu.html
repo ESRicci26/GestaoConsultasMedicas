@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecalho('Administração')}"></head>
+<body>
+<header th:replace="~{fragmentos/base :: navegacao}"></header>
+
+<main class="container">
+    <div th:replace="~{fragmentos/base :: mensagens}"></div>
+
+    <div class="cabecalho-pagina"><h1>Administração</h1></div>
+
+    <div class="grade">
+        <a class="atalho" th:href="@{/admin/pacientes}">
+            <span class="atalho__icone" aria-hidden="true">🧑</span><span class="atalho__titulo">Pacientes</span>
+            <span class="atalho__texto">Listar, cadastrar e excluir pacientes.</span></a>
+        <a class="atalho" th:href="@{/admin/medicos}">
+            <span class="atalho__icone" aria-hidden="true">🩺</span><span class="atalho__titulo">Médicos</span>
+            <span class="atalho__texto">Listar, cadastrar e excluir médicos.</span></a>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos/base :: rodape}"></footer>
+</body>
+</html>

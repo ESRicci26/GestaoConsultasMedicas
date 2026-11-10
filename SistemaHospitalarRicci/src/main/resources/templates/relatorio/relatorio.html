@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/base :: cabecalho('Relatórios')}"></head>
+<body>
+<header th:replace="~{fragmentos/base :: navegacao}"></header>
+
+<main class="container">
+    <div th:replace="~{fragmentos/base :: mensagens}"></div>
+
+    <div class="cabecalho-pagina">
+        <h1>Relatórios</h1>
+        <a class="botao botao--contorno" th:href="@{|${perfil.caminhoBase}/menu|}">Voltar</a>
+    </div>
+
+    <div class="cartao-conteudo" style="margin-bottom:1.25rem;">
+        <form class="formulario" th:object="${formulario}" th:action="@{${acao}}" method="get">
+            <div class="linha-campos linha-campos--tres">
+                <div class="campo">
+                    <label for="tipo">Tipo</label>
+                    <select id="tipo" th:field="*{tipo}">
+                        <option th:each="opcao : ${tipos}" th:value="${opcao}" th:text="${opcao.rotulo}">Consultas</option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="inicio">Data inicial</label>
+                    <input id="inicio" type="date" th:field="*{inicio}" required>
+                </div>
+                <div class="campo">
+                    <label for="fim">Data final</label>
+                    <input id="fim" type="date" th:field="*{fim}" required>
+                </div>
+            </div>
+            <div class="acoes"><button type="submit" name="gerar" value="1" class="botao">Gerar relatório</button></div>
+        </form>
+    </div>
+
+    <th:block th:if="${resultados != null}">
+        <div class="vazio" th:if="${#lists.isEmpty(resultados)}">Nenhum registro encontrado no período.</div>
+
+        <div class="tabela-responsiva" th:if="${!#lists.isEmpty(resultados)}">
+            <table class="tabela">
+                <thead>
+                <tr>
+                    <th>Nº</th>
+                    <th th:text="${perfil.name() == 'MEDICO'} ? 'Paciente' : 'Médico'">Participante</th>
+                    <th th:text="${perfil.name() == 'MEDICO'} ? 'CPF' : 'CRM'">Documento</th>
+                    <th>Data</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="consulta : ${resultados}">
+                    <td data-rotulo="Nº" th:text="${consulta.id}">1</td>
+                    <td data-rotulo="Participante" th:text="${perfil.name() == 'MEDICO'} ? ${consulta.nomePaciente} : ${consulta.nomeMedico}">Nome</td>
+                    <td data-rotulo="Documento" th:text="${perfil.name() == 'MEDICO'} ? ${consulta.cpfPaciente} : ${consulta.crmMedico}">Doc</td>
+                    <td data-rotulo="Data" th:text="${#temporals.format(consulta.dataConsulta, 'dd/MM/yyyy')}">01/01/2026</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="subtitulo" style="margin-top:.75rem;" th:text="'Total: ' + ${#lists.size(resultados)} + ' registro(s)'"></p>
+    </th:block>
+</main>
+
+<footer th:replace="~{fragmentos/base :: rodape}"></footer>
+</body>
+</html>
