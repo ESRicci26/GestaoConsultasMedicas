@@ -1,7 +1,8 @@
 # Gestão Consultas Médicas
 
 Aplicação web para gestão de consultas médicas: pacientes agendam, cancelam e avaliam consultas;
-médicos registram os atendimentos e emitem relatórios; o administrador gerencia os cadastros.
+médicos registram os atendimentos e emitem relatórios; o administrador gerencia os cadastros com Clean Code
+com SOLID, organizada em camadas inspiradas em Arquitetura Limpa (Clean Architecture / Hexagonal)
 
 > Para aprender a usar as telas, consulte o **[manual.md](manual.md)**.
 
